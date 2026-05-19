@@ -134,7 +134,7 @@ const Register = () => {
           </div>
 
           {/* Bottom Card */}
-          <div className="rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur-xl">
+          {/* <div className="rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur-xl">
             <p className="text-sm leading-relaxed text-gray-300">
               “StudySync made our remote study sessions feel
               like we were sitting together in the same room.”
@@ -149,7 +149,7 @@ const Register = () => {
                 Collaborative Learning Community
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Right Section */}
