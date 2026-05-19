@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Whiteboard</title>
+</head>
+<body>
+
+<canvas id="board" width="800" height="500" style="border:1px solid black;"></canvas>
+<button onclick="clearBoard()">Clear</button>
+
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+<script>
+const socket = io("http://localhost:5000");
+
+const canvas = document.getElementById("board");
+const ctx = canvas.getContext("2d");
+
+let drawing = false;
+let current = {};
+const groupId = "test123";
+
+// join room
+socket.emit("join_group", groupId);
+
+// mouse events
+canvas.addEventListener("mousedown", (e) => {
+  drawing = true;
+  current.x = e.offsetX;
+  current.y = e.offsetY;
+});
+
+canvas.addEventListener("mouseup", () => {
+  drawing = false;
+});
+
+canvas.addEventListener("mousemove", (e) => {
+  if (!drawing) return;
+
+  drawLine(current.x, current.y, e.offsetX, e.offsetY, "black", true);
+
+  current.x = e.offsetX;
+  current.y = e.offsetY;
+});
+
+// draw function
+function drawLine(x0, y0, x1, y1, color, emit) {
+  ctx.beginPath();
+  ctx.moveTo(x0, y0);
+  ctx.lineTo(x1, y1);
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.closePath();
+
+  if (!emit) return;
+
+  socket.emit("draw", {
+    groupId,
+    x0,
+    y0,
+    x1,
+    y1,
+    color
+  });
+}
+
+// receive drawing
+socket.on("draw", (data) => {
+  drawLine(data.x0, data.y0, data.x1, data.y1, data.color);
+});
+
+// clear board
+function clearBoard() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  socket.emit("clear_board", groupId);
+}
+
+socket.on("clear_board", () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+});
+</script>
+
+</body>
+</html>
