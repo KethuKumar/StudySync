@@ -16,7 +16,7 @@ const app = express()
 // middlewares
 app.use(morgan("dev"))
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://studysyncfrontend.onrender.com",
     credentials: true
 }));
 app.use(express.json())
