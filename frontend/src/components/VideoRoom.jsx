@@ -11,17 +11,34 @@ import {
   FaCircle,
 } from "react-icons/fa";
 
+// const peerOptions = {
+//   host:
+//     import.meta.env.VITE_PEER_HOST ||
+//     window.location.hostname,
+
+//   port: Number(
+//     import.meta.env.VITE_PEER_PORT ||
+//       5000
+//   ),
+
+//   path: "/peerjs",
+// };
+
+
 const peerOptions = {
-  host:
-    import.meta.env.VITE_PEER_HOST ||
-    window.location.hostname,
-
-  port: Number(
-    import.meta.env.VITE_PEER_PORT ||
-      5000
-  ),
-
+  host: "studysync-backend-rjic.onrender.com",
+  secure: true,
+  port: 443,
   path: "/peerjs",
+  debug: 3,
+
+  config: {
+    iceServers: [
+      {
+        urls: "stun:stun.l.google.com:19302",
+      },
+    ],
+  },
 };
 
 const VideoRoom = ({ roomId }) => {
